@@ -1,13 +1,30 @@
 import { Component } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { MatDialog } from '@angular/material/dialog';
+import { DialogImageComponent } from "./features/dialogs/dialog-image/dialog.image";
 
 @Component({
   selector: 'app-root',
-  standalone: true,
-  imports: [RouterOutlet],
   templateUrl: './app.component.html',
-  styleUrl: './app.component.scss'
+  styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  title = 'bu-start-front';
+  animal: string = "";
+  name: string = "";
+
+  constructor(public dialog: MatDialog) {
+  }
+
+  openDialog(): void {
+    const dialogRef = this.dialog.open(DialogImageComponent, {
+      data: { name: this.name, animal: this.animal }, height: 'auto',
+      width: '600px',
+    },
+    );
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed');
+      this.animal = result;
+    });
+  }
+
 }
